@@ -1,0 +1,21 @@
+{
+	"name" : "zucha/tiles-proxy",
+	"description" : "Open street map tiles proxy for yii2",
+	"keywords" : [
+		"osm",
+		"tiles",
+		"proxy",
+		"yii2"
+	],
+	"support" : {
+		"email" : "uldis@sit.lv"
+	},
+	"require" : {
+		"yiisoft/yii2" : "~2.0"
+	},
+	"autoload" : {
+		"psr-4" : {
+			"zucha\\tilesProxy\\" : ""
+		}
+	}
+}
