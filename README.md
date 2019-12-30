@@ -3,6 +3,19 @@
 Yii2 action for OSM tiles proxy
 
 ## Configuration
+Add _Proxy_ action to controller:
+
+```php
+    public function actions ()
+    {
+        return [
+            'index' => [
+                'class' => Proxy::class
+            ],
+        ];
+    }
+```
+
 Configuration is stored into params configuration.
 
 
