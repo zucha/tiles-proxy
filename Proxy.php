@@ -11,7 +11,7 @@ use yii\helpers\FileHelper;
  * @author uldis@sit.lv
  * @copyright 2020
  */
-class ProxyAction extends Action
+class Proxy extends Action
 {
     /**
      * configuraton parameter
