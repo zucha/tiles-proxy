@@ -7,10 +7,11 @@ use yii\web\HttpException;
 use yii\helpers\FileHelper;
 
 /**
+ * Get tiles from tile servers, stores localy 
  * @author uldis@sit.lv
- * @copyright 2019
+ * @copyright 2020
  */
-class Proxy extends Action
+class ProxyAction extends Action
 {
     /**
      * configuraton parameter
@@ -26,7 +27,7 @@ class Proxy extends Action
     private $_sources = [];
     
     /**
-     * optional
+     * optional 
      * if not set, first source option will be taken
      * @var string
      */
@@ -57,7 +58,7 @@ class Proxy extends Action
         if (isset($parameters['default-source']))
         {
             $this->_defaultSource = $parameters['default-source'];
-        } else
+        } else 
         {
             reset($this->_sources);
             $this->_defaultSource = key($this->_sources);
@@ -69,8 +70,8 @@ class Proxy extends Action
     }
     
     /**
-     * tile images
-     *
+     * Tile images
+     * 
      * @return string
      */
     public function run ()
@@ -81,7 +82,7 @@ class Proxy extends Action
         $y = intval(\Yii::$app->request->get("y", 0));
         $z = intval(\Yii::$app->request->get("z", 0));
         $source = strip_tags(\Yii::$app->request->get("src", $this->_defaultSource));
-        
+
         if (!array_key_exists($source, $this->_sources))
         {
             throw new HttpException(400, "bad source");
@@ -99,7 +100,7 @@ class Proxy extends Action
         
         if (!is_file($file) || ( filemtime($file)<time()-($ttl) && rand(1,10)==10))
         {
-            
+
             $url = $this->_sources[$source][ array_rand($this->_sources[$source]) ];
             
             $url = strtr($url, [
@@ -120,6 +121,11 @@ class Proxy extends Action
             curl_setopt($curlH, CURLOPT_RETURNTRANSFER, 1);
             curl_setopt($curlH, CURLOPT_HEADER, 0);
             curl_setopt($curlH, CURLOPT_USERAGENT, \Yii::$app->id);
+
+            if (isset($_SERVER['HTTP_REFERER']))
+            {
+                curl_setopt($curlH, CURLOPT_REFERER, $_SERVER['HTTP_REFERER']);
+            }
             
             if (!($data = curl_exec($curlH)))
             {
