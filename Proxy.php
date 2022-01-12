@@ -166,6 +166,8 @@ class Proxy extends Action
         
         \Yii::$app->response->headers->set("Access-Control-Allow-Origin", "*");
         
-        return file_get_contents($file);
+        \Yii::$app->response->stream = fopen($file, "r");
+        
+        return \Yii::$app->response;
     }
 }
